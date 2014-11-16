@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="span9">
+<h2>Best questions</h2>
+
+	{% for i in "1324"%}
+
+	<div class="question row">
+	   <div class="span2">
+		   <img src="http://placeimg.com/120/120/people" class="img-polaroid">
+		    <form class="form-search">
+			    <div class="input-prepend input-append margins">
+			    	<button type="submit" class="btn">
+			    		<i class="icon-thumbs-down"></i>
+			    	</button>
+			    	<input class="span1" id="appendedPrependedInput" type="text" value="25"         style="text-align: center;" readonly>
+				    <button type="submit" class="btn">
+				    	<i class="icon-thumbs-up"></i>
+				    </button>
+			    </div>
+		    </form> 
+	   </div> 
+	   <div class="span6">
+		   <h4><a href="#">HOW TO MAKE WEBSITE ON DJANGO?</a></h4>
+		   <p>Anybody, help me!!! I don't know how to do it(((</p>
+		   <div>
+			   <a href="#">answer <span class="badge">99</span></a>
+			   Tags: 
+			   <a href="#">trouble</a>, 
+			   <a href="#">just_do_it</a>,
+			   <a href="#">ok</a>
+		   </div>
+	   </div>
+	</div>
+
+	{% endfor %}
+
+	
+<div class="pagination">
+  <ul>
+	<li><a href="#">Prev</a></li>
+	<li><a href="#">1</a></li>
+	<li><a href="#">2</a></li>
+	<li><a href="#">3</a></li>
+	<li><a href="#">4</a></li>
+	<li><a href="#">5</a></li>
+	<li><a href="#">Next</a></li>
+  </ul>
+</div>
+</div>
+{% endblock %}
