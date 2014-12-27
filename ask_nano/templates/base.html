@@ -21,32 +21,37 @@
 							</div>
 		            	</form>
 		        	</div>
-		        	<!-- Authorized user block -->
+		        	{% if user.is_authenticated %}
 					<div class="user span4 offset1">
 						<a href="./main_templat_files/main_templat.htm">
 	            		   <img src="http://placeimg.com/30/30/people" class="img-rounded avatar">
 						   <i class="icon-user"></i>
-						   <span class="label label-inverse">NANO</span>
+						   <span class="label label-inverse">{{ user.username }}</span>
 						</a>|
 						<a href="/settings/"> <small> Settings </small></a>|
-						<a href="/signup/"> <small> Log out </small> </a> 
+						<a href="/login/"> <small> Logout </small> </a> 
 					</div>
-					<!-- NON-Authorized user block -
+					{% else %}
 					<div class="user span1 offset4">
 						<a href="/signup/">Signup </a> 
-						<a href="/login/"> <small> Login </small> </a> -->
+						<a href="/login/"> <small> Login </small> </a> 
 					</div>
+					{% endif %}
 			  	</div>
-			</div>
 			
 			<div class="row">
 				{% block main %}{% endblock %}
 				<div class="span3">
+					<div>
+						{% if user.is_authenticated %}
+							<a href="/add/"> <h3> ADD QUESTION </h3> </a>
+						{% endif %}
+					</div>
 		            <div>
 		                <h3>Popuplar tags</h3>
-		                <a href="#">Trouble</a>, 
-		                <a href="#">Problems</a>, 
-		                <a href="#">just_do_it</a>
+		                <a href="/tags/Trouble">Trouble</a>, 
+		                <a href="/tags/Problems">Problems</a>, 
+		                <a href="/tags/just_do_it">just_do_it</a>
 		            </div>
 		            <div>
 		                <h3>Best users</h3>

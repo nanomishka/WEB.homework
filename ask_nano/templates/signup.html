@@ -1,47 +1,50 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="span8 offset1">									
-	<h2>Sign UP</h2>
-	<form class="form-horizontal">
-		<div class="control-group">
-		    <label class="control-label" for="inputLogin">Login</label>
-		    <div class="controls">
-		    	<input type="text" id="inputLogin" placeholder="Login">
-	    	</div>
-	    </div>
-	    <div class="control-group">
-		    <label class="control-label" for="inputEmail">Email</label>
-		    <div class="controls">
-		    	<input type="text" id="inputEmail" placeholder="Email">
-	    	</div>
-	    </div>
-	    <div class="control-group">
-		    <label class="control-label" for="inputPassword">Password</label>
-		    <div class="controls">
-		    	<input type="password" id="inputPassword" placeholder="Password">
-		    </div>
-	    </div>
-	    <div class="control-group">
-		    <label class="control-label" for="inputAvatar">Avatar</label>
-		    <div class="controls">
-		    	<img src="http://placeimg.com/120/120/people" class="img-polaroid" id="inputPassword" placeholder="Password">
-			    <div>				
-					<p class="margins">
-						<small>avatar.jpg</small>
-						<button type="submit" class="btn">Choose</button>
-					</p>
-				</div>
-			</div>
-		</div>
-	    <div class="control-group">
-		    <div class="controls">
-			    <label class="checkbox">
-			    	<input type="checkbox">   Confirm my information
-			    </label>
-			    <button type="submit" class="btn">Log in</button>
-		    </div>
-	    </div>
+<div class="span8 offset1">                                    
+    <h2>Sign UP</h2>
+    <form class="form-horizontal" action="/signup/?red={{ path }}" method="post">{% csrf_token %}
+        <div class="control-group">
+            <label class="control-label" for="inputLogin">Login</label>
+            <div class="controls">
+                <input type="text" id="inputLogin" placeholder="Username" name="username" 
+                {% if username %} value="{{ username }}" {% endif %} >
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="Email" name="email"
+                {% if email %} value="{{ email }}" {% endif %}>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" placeholder="Password" name=password>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputAvatar">Avatar</label>
+            <div class="controls">
+                <img src="http://placeimg.com/120/120/people" class="img-polaroid" id="inputPassword" placeholder="Password">
+                <div>                
+                    <p class="margins">
+                        <small>avatar.jpg</small>
+                        <button type="submit" class="btn">Choose</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <!-- <label class="checkbox">
+                    <input type="checkbox">   Confirm my information
+                </label> -->
+                <button type="submit" class="btn">Log in</button>
+                - {{ username }} - {{ email }} -
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="span8 offset1">                                    
+    <h2>Time of NEW QUESTION!</h2>
+    <form action="/add/" method="post">{% csrf_token %}
+        <div>
+            <h4>Title</h4>
+            <div>
+                <input type="text" name="title" size=60 
+                style="width: 400px; height:50 px" value="">
+            </div>
+        </div>
+        <div>
+            <h4>Text</h4>
+            <div >
+                <textarea name="text" style="width: 400px; height:400 px" value=""> </textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">ASK!!!</button>
+                -{{ text }}-{{ title }}-
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

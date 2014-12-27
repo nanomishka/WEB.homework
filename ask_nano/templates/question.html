@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="span9">
+	<div class="row">
+		<div class="question row">
+		   <div class="span2">
+			   <img src="http://placeimg.com/120/120/people" class="img-polaroid">
+			    <form class="form-search">
+				    <div class="input-prepend input-append margins">
+				    	<button type="submit" class="btn">
+				    		<i class="icon-thumbs-down"></i>
+				    	</button>
+				    	<input class="span1" id="appendedPrependedInput" type="text" value="{{ question.rating }}"         style="text-align: center;" readonly>
+					    <button type="submit" class="btn">
+					    	<i class="icon-thumbs-up"></i>
+					    </button>
+				    </div>
+			    </form> 
+		   </div> 
+		   <div class="span6">
+			   <h4><a href="#">{{ question.title }}</a></h4>
+			   <p>{{ question.text }}</p>
+			   <div>
+				   <a href="#">answer <span class="badge"></span></a>
+				   Tags: 
+				   <a href="#">trouble</a>, 
+				   <a href="#">just_do_it</a>,
+				   <a href="#">ok</a>
+			   </div>
+			   <div>
+					<h5> by <a href="#" >{{ question.author.user }}</a></h5>
+			   </div>
+		   </div>
+
+		</div>	    <hr>
+		<div class="span9 offset2">
+			<form action="/response/{{ question.id }}/" method="post">{% csrf_token %}
+		        <div>
+		            <h4>Response</h4>
+		            <div >
+		                <textarea name="text" style="width: 400px; height:400 px" value=""> </textarea>
+		            </div>
+		        </div>
+		        <div class="control-group">
+		            <div class="controls">
+		                <button type="submit" class="btn">Response</button>
+		                <hr>
+		            </div>
+		        </div>
+		    </form>
+	    </div>
+	    {% for answer in answers %}
+   			{% include 'answer.html' %}
+		{% endfor %}
+		<div class="question row">
+			<div class="pagination">
+				<ul>
+					{% for pag in paginators %}		
+						<li><a href="?page={{ pag }}">{{ pag }}</a></li>
+					{% endfor %}
+			  </ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

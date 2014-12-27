@@ -13,6 +13,7 @@ class Question(models.Model):
 	title = models.CharField(max_length=60)
 	text = models.TextField()
 	date_added = models.DateTimeField(auto_now_add=True)
+	rating = models.IntegerField(default=0)
 
 class Answer(models.Model):
 	author = models.ForeignKey(Profile)
@@ -23,7 +24,9 @@ class Answer(models.Model):
 
 class Tags(models.Model):
 	tag = models.CharField(max_length=60)
+	questions = models.ManyToManyField(Question)
 
-class Quest_tags(models.Model):
-	t_quest = models.ForeignKey(Question)
-	t_tag = models.ForeignKey(Tags)
+class Like(models.Model):
+	author = models.ForeignKey(Profile)
+	question = models.ForeignKey(Question)
+	status = models.BooleanField(default=False)

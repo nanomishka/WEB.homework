@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from optparse import make_option
 
-from ask.models import Profile, Question, Answer, Tags, Quest_tags
+from ask.models import Profile, Question, Answer, Tags, Like
 from django.contrib.auth.models import User
 
 from faker.frandom import random
@@ -39,6 +39,11 @@ class Command(BaseCommand):
             dest='quest_tag',
             default=0,
         ),
+        make_option('--likes',
+            action='store',
+            dest='likes',
+            default=0,
+        ),
     )
 
     def handle(self, *args, **options):
@@ -64,8 +69,9 @@ class Command(BaseCommand):
             title =sentence()[0:random.randint(40,80)].replace('.','?')
             text = sentence()[0:random.randint(20,40)].replace('.','?')
             author_id = str(random.randint(p_min,p_max))
+            is_like = str(random.randint(0,1))
             sl = '\\'
-            f.write(sl+sl+'\t'+title+'\t'+text+'\t'+sl+sl+'\t'+author_id+'\n')
+            f.write(sl+sl+'\t'+title+'\t'+text+'\t'+sl+sl+'\t'+author_id+'\t'+is_like+'\n')
             #LOAD DATA INFILE 'data.csv' INTO TABLE ask_question;
 
         for i in range(0, int(options['answers'])):
@@ -88,8 +94,16 @@ class Command(BaseCommand):
             quest_id = str(random.randint(q_min,q_max))
             tag_id = str(random.randint(t_min,t_max))
             sl = '\\'
-            f.write(sl+sl+'\t'+quest_id+'\t'+tag_id+'\n')
+            f.write(sl+sl+'\t'+tag_id+'\t'+quest_id+'\n')
             #LOAD DATA INFILE 'data.csv' INTO TABLE ask_quest_tag;
+
+        for i in range(0, int(options['likes'])):
+            status = str(random.randint(0,1))
+            quest_id = str(random.randint(q_min,q_max))
+            author_id = str(random.randint(p_min,p_max))
+            sl = '\\'
+            f.write(sl+sl+'\t'+status+'\t'+quest_id+'\t'+author_id+'\n')
+            #LOAD DATA INFILE 'data.csv' INTO TABLE ask_like;
 
         f.close()
 

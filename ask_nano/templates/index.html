@@ -4,7 +4,7 @@
 <div class="span9">
 <h2>Best questions</h2>
 
-	{% for i in "1324"%}
+	{% for q in questions %}
 
 	<div class="question row">
 	   <div class="span2">
@@ -14,7 +14,7 @@
 			    	<button type="submit" class="btn">
 			    		<i class="icon-thumbs-down"></i>
 			    	</button>
-			    	<input class="span1" id="appendedPrependedInput" type="text" value="25"         style="text-align: center;" readonly>
+			    	<input class="span1" id="appendedPrependedInput" type="text" value="{{ q.rating }}"         style="text-align: center;" readonly>
 				    <button type="submit" class="btn">
 				    	<i class="icon-thumbs-up"></i>
 				    </button>
@@ -22,14 +22,17 @@
 		    </form> 
 	   </div> 
 	   <div class="span6">
-		   <h4><a href="#">HOW TO MAKE WEBSITE ON DJANGO?</a></h4>
-		   <p>Anybody, help me!!! I don't know how to do it(((</p>
+		   <h4><a href="/question/{{ q.id }}">{{ q.title }}</a></h4>
+		   <p>{{ q.text }}</p>
 		   <div>
-			   <a href="#">answer <span class="badge">99</span></a>
+			   <a href="/question/{{ q.id }}">answer <span class="badge"></span></a>
 			   Tags: 
-			   <a href="#">trouble</a>, 
-			   <a href="#">just_do_it</a>,
-			   <a href="#">ok</a>
+			   <a href="/tags/">trouble</a>, 
+			   <a href="/tags/">just_do_it</a>,
+			   <a href="/tags/">ok</a>
+		   </div>
+		   <div>
+				<h5> by <a href="/user/id" >{{ q.author.user }}</a></h5>
 		   </div>
 	   </div>
 	</div>
@@ -38,14 +41,10 @@
 
 	<div class="question row">
 		<div class="pagination">
-		  <ul>
-			<li><a href="#">Prev</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">Next</a></li>
+			<ul>
+				{% for pag in paginators %}		
+					<li><a href="/?page={{ pag }}">{{ pag }}</a></li>
+				{% endfor %}
 		  </ul>
 		</div>
 	</div>
