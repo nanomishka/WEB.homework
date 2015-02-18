@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="span8 offset1">									
+	<h2>Settings: {{ user.user}}</h2>
+	<form name="form" action="/profile/" method="post" class="form-horizontal" enctype="multipart/form-data">
+	    <div class="control-group">
+		    <label class="control-label" for="inputEmail" >Логин </label>
+		    <div class="controls">
+		    	<input type="text" id="inputEmail" name="username" placeholder="Email"
+		    	value={{ profile.user }} onKeyUp="document.getElementById('stname').style.display='none';"> 
+		    	{% if stname %}	
+		    	<span class="label label-success" id="stname"> Сохранено </span>
+		    	{% endif %}
+	    	</div>
+	    </div>
+	    <div class="control-group">
+		    <label class="control-label" for="inputEmail">Электронная почта</label>
+		    <div class="controls">
+		    	<input type="text" id="inputEmail" name="email" placeholder="Email"
+		    	value={{ profile.user.email }} onKeyUp="document.getElementById('stemail').style.display='none';">
+		    	{% if stemail %}	
+		    	<span class="label label-success" id="stemail"> Сохранено </span>
+		    	{% endif %}
+	    	</div>
+	    </div>
+	    <div class="control-group">
+		    <label class="control-label" for="inputAvatar"> Изменить пароль</label>
+		    <div class="controls">
+			    <div> <p class="muted">Старый пароль</p>
+			    	<input type="password" id="inputPassword" name="oldpass"
+			    	onKeyUp="document.getElementById('stpass').style.display='none';">
+		    	{% if stpass %}	
+		    	<span class="label label-success" id="stpass"> Сохранено </span>
+		    	{% endif %}
+		    	</div>
+
+			    <div> <p class="muted">Новый пароль</p>
+			    	<input type="password" id="inputPassword" name="pass1" onKeyUp="passValid('form','pass1','pass12','submit'),isRavno('form','pass1','pass2','pass22','submit')">
+			    	<span id="pass11" ><span id="pass12" ></span></span>
+		    	</div>
+			    <div> <p class="muted">Повторите пароль</p>
+			    	<input type="password" id="inputPassword" name="pass2" onKeyUp="isRavno('form','pass1','pass2','pass22','submit')">
+			    	<span id="pass22"></span>
+			    	<br/>
+		    	</div>
+            </div>
+		</div>
+	    <div class="control-group">
+		    <label class="control-label" for="inputAvatar"> Фотография профиля</label>
+		    <div class="controls">
+		    	<img src="
+			{% if profile.avatar_url %}
+				/uploads/{{ profile.avatar_url }}
+		   	{% else %}
+		   		http://placeimg.com/120/120/people
+		   	{% endif %}" 
+		   	id="inputAvatar" placeholder="Password" class="img-polaroid" height="120" width="120">
+            <div>
+                <div>                
+                    <p class="margins">
+                        {{ check.file }}
+                    </p>
+                </div>
+            </div>
+			</div>
+		</div>
+	    <div class="control-group">
+		    <div class="controls">
+			  <!--  <label class="checkbox">
+			    	<input type="checkbox">   Confirm my information
+			    </label> -->
+			    <button type="submit" name="submit" class="btn">Save</button>
+		    </div>
+	    </div>
+    </form>
+
+    <script type="text/javascript">
+    	
+    	var min_length=6;//минимальная длина пароля
+	
+		function passValid(form,pass1,pass12,submit) {//проверка длины пароля
+			PASS12=document.getElementById(pass12);//индикатор длины пароля
+			PASS1count=document.forms['form'].pass1.value.length;//количество символов в пароле
+			MARG_LEFT= 10*PASS1count-100;//высчитываем смещение индикатора в зависимости от количества символов в пароле
+			if(MARG_LEFT<0) {//если индикатор не полностью выдвинут, тогда выдвигаем
+				PASS12.style.marginLeft=MARG_LEFT+'px';}
+			if(MARG_LEFT>=0) {//если индикатор полностью выдвинут, тогда не выдвигаем
+			PASS12.style.marginLeft='0px'; }
+			//задаем цвет индикатора в зависимости от количества символов
+			if(PASS1count<4){PASS12.style.background="#f00";}
+			else if((PASS1count>=4) && (PASS1count<6)){PASS12.style.background="#FF9F00";}
+			else if((PASS1count>=6) && (PASS1count<8)){PASS12.style.background="#CBFE01";}
+			else if((PASS1count>=8)) {PASS12.style.background="#0EFE01";}
+		}
+
+
+		function isRavno(form,pass1,pass2,pass22,submit) {//сравниваем пароли
+			PASS1=document.forms[form].pass1.value;//первый пароль
+			PASS1count=document.forms[form].pass1.value.length;//количество символов в 1 пароле
+			PASS2=document.forms[form].pass2.value;//второй пароль
+			PASS22=document.getElementById(pass22);//индикатор совпадения паролей
+			SUBMIT=document.forms[form].submit; //кнопка отправки формы
+			PASS2count=document.forms[form].pass2.value.length;//количество символов в 2 пароле
+
+
+			if(PASS2count==0) {//если совпадают формируем индикатор совпадения паролей
+				PASS22.innerHTML="Повторите пароль";
+				PASS22.className = "label label-warning";
+				SUBMIT.disabled=1;
+			} else	
+			if(PASS1==PASS2) {//если совпадают формируем индикатор совпадения паролей
+				PASS22.innerHTML="Пароли совпадают";
+				PASS22.className = "label label-success";
+				//если количество символов в пароле больше или равно минимальной длине, делаем кнопку отправки активной
+				SUBMIT.disabled=0;
+			} else { //если не совпадают формируем индикатор совпадения паролей
+				PASS22.innerHTML="Пароли не совпадают";
+				PASS22.className = "label label-important";
+				SUBMIT.disabled=1;// делаем кнопку отправки не активной
+			}
+		}
+    </script>
+
+    <style>  
+		/*Блок,в котором плавает индикатор надежности пароля*/
+		#pass11
+		{
+		  width:98px;
+		  height:10px;
+		  border:1px solid #fff;
+		  display:block;
+		  overflow:hidden;
+		}
+		/*индикатор надежности пароля*/
+		#pass12
+		{ margin-left:-102px;
+		  width:100px;
+		  height:8px;
+		  background:#f00;
+		  border:1px solid #fff;
+		  display:block;
+		}
+		/*индикатор совпадения паролей*/
+
+	</style>
+</div>
+{% endblock %}

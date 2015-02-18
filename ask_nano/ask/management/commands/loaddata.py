@@ -86,16 +86,17 @@ class Command(BaseCommand):
         for i in range(0, int(options['tags'])):
             tag = sentence()
             tag = tag[0:tag.find(' ')]
+            number = str(random.randint(0,1))
             sl = '\\'
-            f.write(sl+sl+'\t'+tag+'\n')
-            #LOAD DATA INFILE 'data.csv' INTO TABLE ask_tag;
+            f.write(sl+sl+'\t'+tag+number+'\n')
+            #LOAD DATA INFILE 'data.csv' INTO TABLE ask_tags;
 
         for i in range(0, int(options['quest_tag'])):
-            quest_id = str(random.randint(q_min,q_max))
-            tag_id = str(random.randint(t_min,t_max))
-            sl = '\\'
-            f.write(sl+sl+'\t'+tag_id+'\t'+quest_id+'\n')
-            #LOAD DATA INFILE 'data.csv' INTO TABLE ask_quest_tag;
+             quest_id = str(random.randint(q_min,100))
+             tag_id = str(random.randint(0,150))
+             sl = '\\'
+             f.write(sl+sl+'\t'+tag_id+'\t'+quest_id+'\n')
+             #LOAD DATA INFILE 'data.csv' INTO TABLE ask_quest_tag;
 
         for i in range(0, int(options['likes'])):
             status = str(random.randint(0,1))

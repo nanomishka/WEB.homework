@@ -3,7 +3,8 @@
 {% block main %}
 <div class="span8 offset1">                                    
     <h2>Sign UP</h2>
-    <form class="form-horizontal" action="/signup/?red={{ path }}" method="post">{% csrf_token %}
+    <form class="form-horizontal" action="/signup/?red={{ path }}" method="post"
+    enctype="multipart/form-data">{% csrf_token %}
         <div class="control-group">
             <label class="control-label" for="inputLogin">Login</label>
             <div class="controls">
@@ -27,22 +28,16 @@
         <div class="control-group">
             <label class="control-label" for="inputAvatar">Avatar</label>
             <div class="controls">
-                <img src="http://placeimg.com/120/120/people" class="img-polaroid" id="inputPassword" placeholder="Password">
                 <div>                
                     <p class="margins">
-                        <small>avatar.jpg</small>
-                        <button type="submit" class="btn">Choose</button>
+                        {{ check.file }}
                     </p>
                 </div>
             </div>
         </div>
         <div class="control-group">
             <div class="controls">
-                <!-- <label class="checkbox">
-                    <input type="checkbox">   Confirm my information
-                </label> -->
                 <button type="submit" class="btn">Log in</button>
-                - {{ username }} - {{ email }} -
             </div>
         </div>
     </form>

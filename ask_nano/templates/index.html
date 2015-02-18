@@ -2,38 +2,49 @@
 
 {% block main %}
 <div class="span9">
-<h2>Best questions</h2>
+<h2>Последние вопросы</h2>
 
 	{% for q in questions %}
 
-	<div class="question row">
-	   <div class="span2">
-		   <img src="http://placeimg.com/120/120/people" class="img-polaroid">
-		    <form class="form-search">
-			    <div class="input-prepend input-append margins">
-			    	<button type="submit" class="btn">
-			    		<i class="icon-thumbs-down"></i>
-			    	</button>
-			    	<input class="span1" id="appendedPrependedInput" type="text" value="{{ q.rating }}"         style="text-align: center;" readonly>
-				    <button type="submit" class="btn">
-				    	<i class="icon-thumbs-up"></i>
-				    </button>
-			    </div>
-		    </form> 
-	   </div> 
-	   <div class="span6">
-		   <h4><a href="/question/{{ q.id }}">{{ q.title }}</a></h4>
-		   <p>{{ q.text }}</p>
-		   <div>
-			   <a href="/question/{{ q.id }}">answer <span class="badge"></span></a>
-			   Tags: 
-			   <a href="/tags/">trouble</a>, 
-			   <a href="/tags/">just_do_it</a>,
-			   <a href="/tags/">ok</a>
-		   </div>
-		   <div>
+	<div class="question row well" style="background-color:#fafafa">
+		<div class="span2">
+			<img src="
+			{% if q.author.avatar_url %}
+		 		uploads/{{ q.author.avatar_url }}
+		 	{% else %}
+		 		http://placeimg.com/120/120/people
+		 	{% endif %}
+		   " 
+
+			class="img-polaroid">
+			<form class="form-search" style="margin: 0" >
+				<div class="input-prepend input-append margins">
+					<button type="button" class="btn {% if q.voice %} btn-danger {% endif %} js_dislike" data-id="{{ q.id }}" 
+					{% if not q.voice %} disabled {% endif %}>
+						<i class="icon-thumbs-down"></i>
+					</button>
+					<input class="span1 js_cnt" type="text" value="{{ q.rating }}"		 style="text-align: center;" readonly>
+					<button type="button" class="btn {% if q.voice %} btn-success {% endif %} js_like" data-id="{{ q.id }}" 
+					{% if not q.voice %} disabled {% endif %}>
+						<i class="icon-thumbs-up"></i>
+					</button>
+				</div>
+			</form> 
+		</div> 
+		<div class="span5" style="padding-left: 30px">
+			<h4><a href="/question/{{ q.id }}">{{ q.title }}</a></h4>
+			<p>{{ q.text }}</p>
+			<div>
+				<a href="/question/{{ q.id }}">answers <span class="badge">{{ q.count }}</span></a>
+				Tags: 
+				{% for tag in q.tags %}
+					<a href="/tags/">{{ tag.tag }}</a>, 
+				{% endfor %}
+			</div>
+			<div>
 				<h5> by <a href="/user/id" >{{ q.author.user }}</a></h5>
 		   </div>
+		   {{ q.date_added }}
 	   </div>
 	</div>
 
@@ -42,11 +53,69 @@
 	<div class="question row">
 		<div class="pagination">
 			<ul>
+				{% if questions.has_previous %}
+				<li><a href="?page={{ questions.previous_page_number }}">предыдущая</a></li>
+				{% endif %}
+
+				<li><a class="disabled" >страница {{ questions.number }} из {{ questions.paginator.num_pages }}</a></li>
+
+				{% if questions.has_next %}
+				<li><a href="?page={{ questions.next_page_number }}">следующая</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="pagination">
+			<ul>
+					<li><a href="/">первая</a></li>
+					<li><a class="disabled" > ... </a></li>
 				{% for pag in paginators %}		
 					<li><a href="/?page={{ pag }}">{{ pag }}</a></li>
 				{% endfor %}
-		  </ul>
+					<li><a class="disabled" > ... </a></li>
+					<li><a href="/?page={{ all_pages }}">последняя</a></li>
+			</ul>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$('.js_like').on('click', function() {
+		var $obj = $(this);
+		like = $obj[0];
+		dislike = $obj.parent().find('.js_dislike')[0];
+		$.ajax({ url: "/like/", type: "post", data: { type: "like", id: $obj.data('id') } })
+			.done(function(resp) {
+				if (resp['status'] == 'ok') {
+					$obj.parent().find('.js_cnt').val(resp['new_rating']);
+					like.disabled = true;
+					like.classList.remove("btn-success");
+					dislike.disabled = true;
+					dislike.classList.remove("btn-danger");
+				}
+				if (resp['status'] == 'error')
+					alert("Войдите в свою учетную запись")
+
+		})
+		
+	});
+
+	$('.js_dislike').on('click', function() {
+		var $obj = $(this);
+		dislike = $obj[0];
+		like = $obj.parent().find('.js_like')[0];
+		$.ajax({ url: "/like/", type: "post", data: { type: "dislike", id: $obj.data('id') } })
+			.done(function(resp) {
+				if (resp['status'] == 'ok') {
+					$obj.parent().find('.js_cnt').val(resp['new_rating']);
+					like.disabled = true;
+					like.classList.remove("btn-success");
+					dislike.disabled = true;
+					dislike.classList.remove("btn-danger");
+				}
+				if (resp['status'] == 'error')
+					alert("Войдите в свою учетную запись")
+		})
+	});
+</script>
+
 {% endblock %}

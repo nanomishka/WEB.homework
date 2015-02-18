@@ -88,6 +88,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+MEDIA_ROOT = '/home/nano/web/ask_nano/uploads/'
+MEDIA_ROOT_URL = '/uploads/'
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (

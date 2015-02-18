@@ -4,7 +4,8 @@
 	<head>
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
-	    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">		
+	    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">	
+	    <script type="text/javascript" src="{% static "js/jquery-1.11.2.min.js" %}"></script>	
 	</head>
 	<body>
 	    <div class="container">
@@ -17,24 +18,28 @@
 	                    <form class="navbar-form pull-left">
 					    	<div class="input-append">
 						  		<input class="span3" id="appendedInputButton" type="text">
-						  		<button class="btn" type="button">ASK!</button>
+						  		<button class="btn" type="button">Спросить</button>
 							</div>
 		            	</form>
 		        	</div>
 		        	{% if user.is_authenticated %}
 					<div class="user span4 offset1">
-						<a href="./main_templat_files/main_templat.htm">
-	            		   <img src="http://placeimg.com/30/30/people" class="img-rounded avatar">
+	            		   <img src="
+			{% if profile.avatar_url %}
+				/uploads/{{ profile.avatar_url }}
+		   	{% else %}
+		   		http://placeimg.com/120/120/people
+		   	{% endif %}
+		   " class="img-rounded avatar" height="40" width="40">
 						   <i class="icon-user"></i>
-						   <span class="label label-inverse">{{ user.username }}</span>
-						</a>|
-						<a href="/settings/"> <small> Settings </small></a>|
-						<a href="/login/"> <small> Logout </small> </a> 
+						   <span class="label label-inverse">{{ profile.user.username }}</span> | 
+						<a href="/profile/"> <small> Настройки </small></a>|
+						<a href="/login/"> <small> Выйти </small> </a> 
 					</div>
 					{% else %}
 					<div class="user span1 offset4">
-						<a href="/signup/">Signup </a> 
-						<a href="/login/"> <small> Login </small> </a> 
+						<a href="/signup/">  Регистрация </a> 
+						<a href="/login/"> <small> Войти </small> </a> 
 					</div>
 					{% endif %}
 			  	</div>

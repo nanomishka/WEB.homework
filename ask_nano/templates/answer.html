@@ -1,10 +1,22 @@
-<div class="row question">
-	<div class="span1"></div>
+<div class="row question well spant7" style="margin-left: 100px; background-color:
+		{% if answer.author.user.id == user.id %}
+			#AAFFAA
+		{% else %}
+			#fafafa
+		{% endif %}
+		">
 	<div class="span2">
-		<img src="http://lorempixum.com/60/60/sports" class="img-polaroid">
+		<img src="
+			{% if answer.author.avatar_url %}
+				/uploads/{{ answer.author.avatar_url }}
+		   	{% else %}
+		   		http://placeimg.com/60/60/people
+		   	{% endif %}
+		   " class="img-polaroid" height="60" width="60">
 	</div>
 	<div class="span5">
-		<h4>{{ answer.text }}</h4>
+
+		<span>{{ answer.text }}</span>
 		<h5> by <a href="#" >{{ answer.author.user }}</a></h5>
 	</div>
 </div>
