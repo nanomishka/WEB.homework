@@ -1,0 +1,15 @@
+WSGIPythonPath /home/nano/web/ask_nano
+
+<VirtualHost *:8080>
+
+	WSGIScriptAlias / /home/nano/web/ask_nano/ask_nano/wsgi.py
+	
+	<Directory /home/nano/web/ask_nano>
+		<Files wsgi.py>
+			#Require all granted
+			Allow from all
+			Order deny,allow
+		</Files>
+	</Directory>
+
+</VirtualHost>
